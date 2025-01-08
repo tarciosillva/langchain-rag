@@ -7,13 +7,15 @@ from config.settings import Settings
 settings = Settings()
 
 PROMPT_TEMPLATE = """
-Answer the question based only on the following context:
+Responda de forma descontraída, mantendo o respeito e valores adventistas, seja claro e consciso:
 
+Contexto:
 {context}
 
----
+Pergunta:
+{question}
 
-Answer the question based on the above context: {question}
+Resposta:
 """
 
 def process_query(query_text: str):
@@ -28,6 +30,13 @@ def process_query(query_text: str):
 
     # Criar contexto
     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
+
+    MAX_TOKENS=3000
+    context_tokens = len(context_text.split())
+    if context_tokens > MAX_TOKENS:
+        context_text = context_text[:MAX_TOKENS]
+    
+    
     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
     prompt = prompt_template.format_messages(context=context_text, question=query_text)
 

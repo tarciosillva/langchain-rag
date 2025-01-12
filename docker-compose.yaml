@@ -8,6 +8,5 @@ services:
       - "8000:8000"
     volumes:
       - .:/app
-    environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      CHROMA_PATH: ${CHROMA_PATH}
+    env_file:
+      - .env

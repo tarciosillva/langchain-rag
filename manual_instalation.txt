@@ -1,0 +1,13 @@
+1.Baixar o repo
+
+2.No diretório do repositório, crie o ambiente virtual usando o comando: python3 -m venv venv
+
+3. source venv/bin/activate
+
+4. pip install -r requirements.txt
+
+5. python create_database.py
+
+6. Sair do venv: deactivate
+ 
+7. docker compose up -d

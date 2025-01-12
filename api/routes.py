@@ -8,7 +8,7 @@ router = APIRouter()
 
 @router.post("/query", response_model=QueryResponse)
 def query_endpoint(request: QueryRequest):
-    response = process_query(request.query_text)
+    response = process_query(request.query_text, request.message_context)
     if not response["response"]:
         raise HTTPException(status_code=404, detail="No matching results found.")
     return response

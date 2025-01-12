@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main 
+      - main
 
 jobs:
   build:
@@ -13,7 +13,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v2
 
-      - name: Set up Docker
+      - name: Set up Docker and Docker Compose
         run: |
           sudo apt-get update
           sudo apt-get install -y docker.io
@@ -23,6 +23,7 @@ jobs:
 
       - name: Build and Run with Docker Compose
         run: docker-compose -f docker-compose.yml build
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -39,7 +40,11 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            # Certifique-se de que o caminho do repositório está correto no servidor
             cd /path/to/your/app
+            # Atualizar o código do repositório
             git pull origin main
+            # Parar e remover containers antigos
             docker-compose -f docker-compose.yml down
+            # Subir os containers novamente
             docker-compose -f docker-compose.yml up -d
